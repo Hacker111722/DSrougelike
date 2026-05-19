@@ -5,6 +5,9 @@ using UnityEngine;
 //敌人生命系统
 public class EnemyHealth : MonoBehaviour
 {
+    [Header("经验球预制体")]
+    public GameObject expOrPrefab;
+
     [Header("最大生命值")]
     public int maxHealth = 3;
     //当前生命值
@@ -28,6 +31,7 @@ public class EnemyHealth : MonoBehaviour
 
     private void Die()
     {
+        Instantiate(expOrPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 
