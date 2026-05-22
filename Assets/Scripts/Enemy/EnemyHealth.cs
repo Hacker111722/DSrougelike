@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//µĞÈËÉúÃüÏµÍ³
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÍ³
 public class EnemyHealth : MonoBehaviour
 {
-    [Header("¾­ÑéÇòÔ¤ÖÆÌå")]
+    [Header("ç»éªŒçƒé¢„åˆ¶ä½“")]
     public GameObject expOrPrefab;
 
-    [Header("×î´óÉúÃüÖµ")]
+    [Header("æœ€å¤§ç”Ÿå‘½å€¼")]
     public int maxHealth = 3;
-    //µ±Ç°ÉúÃüÖµ
+    //å½“å‰è¡€é‡
     private int currentHealth;
 
     private void Awake()
@@ -18,11 +18,11 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    //ÊÜµ½ÉËº¦
+    //æ”¶åˆ°ä¼¤å®³
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        //ËÀÍö¼ì²â
+        //æ­»äº¡é€»è¾‘
         if (currentHealth <= 0)
         {
             Die();
@@ -32,7 +32,20 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         Instantiate(expOrPrefab, transform.position, Quaternion.identity);
+        //è§¦å‘ç©å®¶å‡»æ€å›è¡€
+        PlayerStats playerStats = FindObjectOfType<PlayerStats>();
+        if(playerStats != null && playerStats.healthRegenAmount>0)
+        {
+            playerStats.currentHealth += playerStats.healthRegenAmount;
+            playerStats.currentHealth = Mathf.Min(playerStats.currentHealth,playerStats.maxHealth);
+        } 
+
         Destroy(gameObject);
+    }
+
+    public void ResetHealth()
+    {
+        currentHealth = maxHealth;
     }
 
 

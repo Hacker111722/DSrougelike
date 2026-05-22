@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    [Header("µĞÈËÒÆ¶¯ËÙ¶È")]
+    [Header("ç§»åŠ¨é€Ÿåº¦")]
     public float moveSpeed = 2f;
 
-    //Íæ¼ÒÄ¿±ê
+    //ç©å®¶å¯¹è±¡çš„æ–¹ä½
     private Transform player;
 
-    //rigidBody2D×é¼ş
+    //rigidBody2Då®ä¾‹
     private Rigidbody2D rb;
 
-    //³õÊ¼»¯
+    //åˆå§‹åŒ–åˆšä½“
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -24,11 +24,11 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //²éÕÒÍæ¼Ò¶ÔÏó
+        //æ‰¾åˆ°ç©å®¶å¯¹è±¡
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
-    //¹Ì¶¨Ö¡¸üĞÂÎïÀíÒÆ¶¯
+    //ç‰©ç†å¸§æ›´æ–°ç§»åŠ¨
     private void FixedUpdate()
     {
         MoveToPlayer();
@@ -37,15 +37,15 @@ public class EnemyController : MonoBehaviour
 
     private void MoveToPlayer()
     {
-        //Èç¹ûÍæ¼Ò²»´æÔÚ
+        //æ‰¾ä¸åˆ°ç©å®¶æ—¶è¿”å›
         if (player == null)
         {
             return;
         }
-        //¼ÆËã·½Ïò
+        //è®¾å®šæ–¹å‘
         Vector2 direction = (player.position - transform.position).normalized;
 
-        //ÉèÖÃËÙ¶È
+        //è®¾ç½®ç§»åŠ¨é€Ÿåº¦
         rb.velocity = direction * moveSpeed;
     }
 }

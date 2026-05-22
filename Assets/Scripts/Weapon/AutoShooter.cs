@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//×Ô¶¯Éä»÷ÏµÍ³
+//ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ÏµÍ³
 public class AutoShooter : MonoBehaviour
 {
-    [Header("×Óµ¯Ô¤ÖÆÌå")]
+    [Header("å­å¼¹é¢„åˆ¶ä½“")]
     public GameObject bulletPrefab;
 
-    [Header("¹¥»÷¼ä¸ô")]
+    [Header("æ”»å‡»é—´éš”")]
     public float attackInterval = 1f;
 
-    [Header("¹¥»÷·¶Î§")]
+    [Header("æ”»å‡»è·ç¦»")]
     public float attackRange = 8f;
 
-    //¼ÆÊ±Æ÷
+    //è®¡æ—¶å™¨
     private float timer;
 
     private void Update()
@@ -29,28 +29,28 @@ public class AutoShooter : MonoBehaviour
 
     }
 
-    //¹¥»÷×î½üµÄµĞÈË
+    //æ”»å‡»è·ç¦»æœ€è¿‘çš„æ•Œäºº
     private void AttackNearestEnemy()
     {
-        //»ñÈ¡ËùÓĞµĞÈË
+        //è¯†åˆ«æ•Œäºº
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        //Ã»ÓĞµĞÈË
+        //å¦‚æœæ²¡æ•Œäºº
         if (enemies.Length == 0) return;
 
         GameObject nearestEnemy = null;
 
         float nearestDistance = Mathf.Infinity;
 
-        //±éÀúËùÓĞµĞÈË
+        //æ‰¾åˆ°æœ€è¿‘çš„æ•Œäºº
         foreach (GameObject enemy in enemies)
         {
-            //¼ÆËã¾àÀë
+            //è®¡ç®—è·ç¦»
             float distance = Vector2.Distance(transform.position, enemy.transform.position);
 
-            //ÔÚ¹¥»÷·¶Î§ÄÚ
+            //åˆ¤æ–­æ˜¯å¦è¿›å…¥èŒƒå›´
             if (distance <= attackRange) {
-                //ÕÒ¸ü½üµÄµĞÈË
+                //æ‰¾åˆ°æœ€è¿‘çš„æ•Œäºº
                 if (distance < nearestDistance)
                 {
                     nearestDistance = distance;
@@ -60,12 +60,12 @@ public class AutoShooter : MonoBehaviour
         }
 
         if (nearestEnemy == null) return;
-        //¼ÆËã·½Ïò
+        //å¾—åˆ°å­å¼¹å‘å°„æ–¹å‘
         Vector2 direction = (nearestEnemy.transform.position - transform.position).normalized;
 
-        //Éú³É×Óµ¯
+        //å®ä¾‹åŒ–å­å¼¹
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        //»ñÈ¡×Óµ¯×é¼ş
+        //åˆå§‹åŒ–å­å¼¹
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.Init(direction);
 
