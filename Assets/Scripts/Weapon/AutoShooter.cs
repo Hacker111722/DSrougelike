@@ -14,6 +14,10 @@ public class AutoShooter : MonoBehaviour
     [Header("攻击距离")]
     public float attackRange = 8f;
 
+    [HideInInspector] public int bonusDamage = 0;    //额外子弹伤害
+    [HideInInspector] public float bonusBulletSpeed = 0f;    //额外子弹速度
+
+
     //计时器
     private float timer;
 
@@ -67,6 +71,8 @@ public class AutoShooter : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
         //初始化子弹
         Bullet bulletScript = bullet.GetComponent<Bullet>();
+        bulletScript.damage += bonusDamage;    //应用额外伤害
+        bulletScript.moveSpeed += bonusBulletSpeed;    //应用额外子弹速度
         bulletScript.Init(direction);
 
     }

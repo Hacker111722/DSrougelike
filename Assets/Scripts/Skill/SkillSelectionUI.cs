@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class SkillSelectionUI : MonoBehaviour
 {
-    [Header("���ܰ�ť")]
+    [Header("技能选择按钮")]
     public List<SkillButtonUI> skillButton;
 
-    [Header("���ܹ�����")]
+    [Header("技能管理")]
     public SkillManager skillManager;
 
     private void Start()
@@ -76,7 +76,7 @@ public class SkillSelectionUI : MonoBehaviour
     public void SelectSkill(SkillData skill)
     {
         skillManager.ApplySkill(skill);
-        //�ָ���Ϸ
+        //使游戏继续
         Time.timeScale = 1f;
         gameObject.SetActive(false); 
     }

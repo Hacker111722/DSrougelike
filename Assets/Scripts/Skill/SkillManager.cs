@@ -115,11 +115,11 @@ public class SkillManager : MonoBehaviour
                 break;
 
             case SkillType.Damage:
-                autoShooter.bulletPrefab.GetComponent<Bullet>().damage += (int)skill.value;
+                autoShooter.bonusDamage+=(int)skill.value;
                 break;
             
             case SkillType.BulletSpeed:
-                autoShooter.bulletPrefab.GetComponent<Bullet>().moveSpeed += skill.value;
+                autoShooter.bonusBulletSpeed += skill.value;
                 break;
 
             case SkillType.HealthRegen:

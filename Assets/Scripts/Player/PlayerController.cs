@@ -37,8 +37,9 @@ public class PlayerController : MonoBehaviour
             PlayerStats playerStats = GetComponent<PlayerStats>();
             if(playerStats !=null)
             {
-                //敌人碰到玩家造成1点伤害
-                playerStats.TakeDamage(1);
+                EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
+                int damage = enemyHealth != null ? enemyHealth.contactDamage : 1;
+                playerStats.TakeDamage(damage);
             }
         }
     }

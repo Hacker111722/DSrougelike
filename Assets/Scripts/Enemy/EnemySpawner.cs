@@ -8,6 +8,9 @@ public class EnemySpawner : MonoBehaviour
     [Header("敌人预制体")]
     public GameObject enemyPrefab;
 
+    [Header("敌人类型配置")]
+    public List<EnemyConfig> enemyConfigs = new List<EnemyConfig>();
+
     [Header("敌人生成时间间隔")]
     public float spawnInterval = 2f;
 
@@ -35,7 +38,7 @@ public class EnemySpawner : MonoBehaviour
         }
         timer += Time.deltaTime;
         //当计时器大于生成时间时生成敌人并归零计时器
-        if (timer > spawnInterval)
+        if (timer > currentInterval)
         {
             timer = 0f;
             SpawnEnemy();
@@ -46,9 +49,29 @@ public class EnemySpawner : MonoBehaviour
     {
         //检查是否达到了最大敌人数量
         int maxEnemies = difficultyManager != null ? difficultyManager.GetMaxEnemies() :(int)maxNumberofEnemy;
+        
         //统计场上敌人
         GameObject[] currentEnemies = GameObject.FindGameObjectsWithTag("Enemy");
         if (currentEnemies.Length >= maxEnemies) return;
+
+        //获取当前玩家等级
+        int playerLevel = difficultyManager != null && difficultyManager.playerStats !=null ? difficultyManager.playerStats.level : 1;
+
+
+        //筛选出当前等级可用的敌人类型
+        List<EnemyConfig> availableConfigs = new List<EnemyConfig>();
+        foreach (var config in enemyConfigs)
+        {
+            if(playerLevel >= config.minPlayerLevel)
+            {
+                availableConfigs.Add(config);
+            }
+        }
+
+        if(availableConfigs.Count==0) return;
+
+        //随机选一种敌人类型
+        EnemyConfig selectedConfig = availableConfigs[Random.Range(0, availableConfigs.Count)];
         
         
         //生成随机方位方向
@@ -59,25 +82,43 @@ public class EnemySpawner : MonoBehaviour
         //生成敌人
         GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
 
-        //进行难度缩放
-        if(difficultyManager !=null)
-        {
-            //血量缩放
-            EnemyHealth health = enemy.GetComponent<EnemyHealth>();
-            if(health != null)
-            {
-                health.maxHealth = difficultyManager.GetEnemyMaxHealth();
-                //重新初始化当前血量
-                health.ResetHealth();
-            }
+        //应用类型配置
+        //缩放体型
+        enemy.transform.localScale = Vector3.one * selectedConfig.sizeScale;
 
-            //速度缩放
-            EnemyController controller = enemy.GetComponent<EnemyController>();
-            if(controller != null)
-            {
-                controller.moveSpeed = difficultyManager.GetEnemySpeed();
-            }
+        //修改颜色
+        SpriteRenderer sr = enemy.GetComponent<SpriteRenderer>();
+        if(sr != null)
+        {
+            sr.color = selectedConfig.spriteColor;
         }
+
+        //配置速度
+        EnemyController controller = enemy.GetComponent<EnemyController>();
+        if(controller != null)
+        {
+            controller.moveSpeed = difficultyManager != null ? difficultyManager.GetEnemySpeed() * (selectedConfig.moveSpeed/2f) : selectedConfig.moveSpeed;
+        }
+
+        //配置血量
+        EnemyHealth health  = enemy.GetComponent<EnemyHealth>();
+        if(health != null)
+        {
+            health.maxHealth = difficultyManager != null ? difficultyManager.GetEnemyMaxHealth() + (selectedConfig.maxHealth - 3) : selectedConfig.maxHealth;
+            health.contactDamage = selectedConfig.contactDamage;
+            health.explosionRadius = selectedConfig.explosionRadius;
+            health.explosionDamage = selectedConfig.contactDamage * 2;
+            health.ResetHealth();
+        }
+
+        //记录敌人类型
+        EnemyTypeHolder typeHolder = enemy.GetComponent<EnemyTypeHolder>();
+        if(typeHolder != null)
+        {
+            typeHolder.enemyType = selectedConfig.enemyType;
+        }
+
+        
 
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//��������ϵͳ
+//敌人的生命脚本
 public class EnemyHealth : MonoBehaviour
 {
     [Header("经验球预制体")]
@@ -10,8 +10,18 @@ public class EnemyHealth : MonoBehaviour
 
     [Header("最大生命值")]
     public int maxHealth = 3;
+
+    [Header("碰撞伤害")]
+    public int contactDamage = 1;
+
+    [Header("爆炸参数（自爆用）")]
+    public float explosionRadius = 0f;
+    [HideInInspector] public int explosionDamage = 2;
+
     //当前血量
     private int currentHealth;
+    //判断是否死亡
+    private bool hasDied = false;
 
     private void Awake()
     {
@@ -21,6 +31,8 @@ public class EnemyHealth : MonoBehaviour
     //收到伤害
     public void TakeDamage(int damage)
     {
+        //如果死亡则返回
+        if(hasDied) return;
         currentHealth -= damage;
         //死亡逻辑
         if (currentHealth <= 0)
@@ -31,6 +43,8 @@ public class EnemyHealth : MonoBehaviour
 
     private void Die()
     {
+        if(hasDied) return;
+        hasDied = true;
         Instantiate(expOrPrefab, transform.position, Quaternion.identity);
         //触发玩家击杀回血
         PlayerStats playerStats = FindObjectOfType<PlayerStats>();
@@ -39,6 +53,19 @@ public class EnemyHealth : MonoBehaviour
             playerStats.currentHealth += playerStats.healthRegenAmount;
             playerStats.currentHealth = Mathf.Min(playerStats.currentHealth,playerStats.maxHealth);
         } 
+
+        if(explosionRadius > 0f)
+        {
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
+            foreach(var hit in hitColliders)
+            {
+                EnemyHealth otherEnemy = hit.GetComponent<EnemyHealth>();
+                if(otherEnemy != null && otherEnemy !=this)
+                {
+                    otherEnemy.TakeDamage(explosionDamage);
+                }
+            }
+        }
 
         Destroy(gameObject);
     }
