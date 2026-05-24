@@ -11,9 +11,12 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 moveInput;
 
+    public Animator animator;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -23,6 +26,13 @@ public class PlayerController : MonoBehaviour
         moveInput.y = Input.GetAxisRaw("Vertical");
 
         moveInput = moveInput.normalized;
+
+        //驱动动画
+        if(animator != null)
+        {
+            animator.SetFloat("MoveX", moveInput.x);
+            animator.SetFloat("MoveY", moveInput.y);
+        }
     }
 
     private void FixedUpdate()

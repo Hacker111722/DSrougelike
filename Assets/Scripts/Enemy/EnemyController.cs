@@ -13,10 +13,13 @@ public class EnemyController : MonoBehaviour
     //rigidBody2D实例
     private Rigidbody2D rb;
 
+    private Animator animator;
+
     //初始化刚体
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator  = GetComponent<Animator>();
     }
 
 
@@ -40,6 +43,7 @@ public class EnemyController : MonoBehaviour
         //找不到玩家时返回
         if (player == null)
         {
+            if(animator!= null) animator.SetInteger("State", 0);
             return;
         }
         //设定方向
@@ -47,5 +51,8 @@ public class EnemyController : MonoBehaviour
 
         //设置移动速度
         rb.velocity = direction * moveSpeed;
+
+        //驱动动画
+        if(animator!=null) animator.SetInteger("State", 1);   //播放行走动画
     }
 }

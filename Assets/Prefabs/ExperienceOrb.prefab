@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8198358779004322116}
   - component: {fileID: 2765527466876771166}
   - component: {fileID: 5187127842994635067}
+  - component: {fileID: 4613102713332568600}
   m_Layer: 0
   m_Name: ExperienceOrb
   m_TagString: Untagged
@@ -164,3 +165,24 @@ MonoBehaviour:
   expAmount: 1
   attractDistance: 3
   moveSpeed: 5
+--- !u!95 &4613102713332568600
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3903794397352667961}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6eb0fe864efc56346ba0f6a51a808f53, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

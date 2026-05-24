@@ -8,6 +8,9 @@ public class EnemySpawner : MonoBehaviour
     [Header("敌人预制体")]
     public GameObject enemyPrefab;
 
+    [Header("各类型的敌人预制体")]
+    public EnemyPrefabEntry[] enemyPrefabs;
+
     [Header("敌人类型配置")]
     public List<EnemyConfig> enemyConfigs = new List<EnemyConfig>();
 
@@ -79,8 +82,21 @@ public class EnemySpawner : MonoBehaviour
         //在得到敌人的随机生成位置
         Vector2 spawnPosition = (Vector2)transform.position + randomDirection * spawnRadius;
 
+        //根据敌人类型生成敌人
+        GameObject prefabToSpawn = enemyPrefab;
+        if(enemyPrefabs != null)
+        {
+            foreach(var entry in enemyPrefabs)
+            {
+                if(entry.enemyType == selectedConfig.enemyType)
+                {
+                    prefabToSpawn = entry.prefab;
+                    break;
+                }
+            }
+        }        
         //生成敌人
-        GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+        GameObject enemy = Instantiate(prefabToSpawn, spawnPosition,Quaternion.identity);
 
         //应用类型配置
         //缩放体型
@@ -121,6 +137,11 @@ public class EnemySpawner : MonoBehaviour
         
 
     }
+}
 
-
+[System.Serializable]
+public class EnemyPrefabEntry
+{
+    public EnemyType enemyType;
+    public GameObject prefab;
 }
