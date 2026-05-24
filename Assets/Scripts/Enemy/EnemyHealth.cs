@@ -45,22 +45,59 @@ public class EnemyHealth : MonoBehaviour
     {
         if(hasDied) return;
         hasDied = true;
+        //自爆敌人，先播放动画预警，再爆炸
+        if(explosionRadius>0f)
+        {
+            StartCoroutine(ExplodeWithWarning());
+        }
+        else
+        {
+            //普通死亡，直接销毁
+            Instantiate(expOrPrefab, transform.position, Quaternion.identity);
+            //触发玩家击杀回血
+            PlayerStats playerStats = FindObjectOfType<PlayerStats>();
+            if(playerStats!=null && playerStats.healthRegenAmount>0)
+            {
+                playerStats.currentHealth+= playerStats.healthRegenAmount;
+                playerStats.currentHealth = Mathf.Min(playerStats.currentHealth, playerStats.maxHealth);
+            }        
+            Destroy(gameObject);
+        }
+
+
+    }
+
+    private IEnumerator ExplodeWithWarning()
+    {
+        //触发预警动画
+        Animator animator = GetComponent<Animator>();
+        if(animator !=null)
+        {
+            animator.SetTrigger("Explode");
+        }
+
+        //等待预警动画播放完
+        yield return new WaitForSeconds(2f);
+
+        //生成经验球
         Instantiate(expOrPrefab, transform.position, Quaternion.identity);
-        //触发玩家击杀回血
+
+        //玩家回血
         PlayerStats playerStats = FindObjectOfType<PlayerStats>();
         if(playerStats != null && playerStats.healthRegenAmount>0)
         {
             playerStats.currentHealth += playerStats.healthRegenAmount;
-            playerStats.currentHealth = Mathf.Min(playerStats.currentHealth,playerStats.maxHealth);
-        } 
+            playerStats.currentHealth = Mathf.Min(playerStats.currentHealth, playerStats.maxHealth);
+        }
 
+        //爆炸伤害周围敌人
         if(explosionRadius > 0f)
         {
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, explosionRadius);
             foreach(var hit in hitColliders)
             {
                 EnemyHealth otherEnemy = hit.GetComponent<EnemyHealth>();
-                if(otherEnemy != null && otherEnemy !=this)
+                if(otherEnemy != null && otherEnemy != this)
                 {
                     otherEnemy.TakeDamage(explosionDamage);
                 }
@@ -68,14 +105,13 @@ public class EnemyHealth : MonoBehaviour
         }
 
         Destroy(gameObject);
+
     }
 
     public void ResetHealth()
     {
         currentHealth = maxHealth;
     }
-
-
-
-
 }
+
+
