@@ -21,8 +21,8 @@ public class ExperienceBarUI : MonoBehaviour
     //���¾�����
     private void UpdateExpBar()
     {
-        expSlider.maxValue = playerStats.expToNextLevel;
-        expSlider.value = playerStats.currentExp;
+        expSlider.maxValue = playerStats.ExpToNextLevel;
+        expSlider.value = playerStats.CurrentExp;
     }
 
 }

@@ -7,16 +7,18 @@ namespace Game.Weapon{
 public class AutoShooter : MonoBehaviour
 {
     [Header("子弹预制体")]
-    public GameObject bulletPrefab;
+    [SerializeField]private GameObject bulletPrefab;
+    public GameObject BulletPrefab => bulletPrefab;   //外部读取
 
     [Header("攻击间隔")]
-    public float attackInterval = 1f;
+    [SerializeField]private float attackInterval = 1f;
+    public float AttackInterval {get=>attackInterval; set=>attackInterval = value;}
 
     [Header("攻击距离")]
-    public float attackRange = 8f;
+    [SerializeField]private float attackRange = 8f;
 
-    [HideInInspector] public int bonusDamage = 0;    //额外子弹伤害
-    [HideInInspector] public float bonusBulletSpeed = 0f;    //额外子弹速度
+    public int BonusDamage{get; set;}    //额外子弹伤害
+    public float BonusBulletSpeed{get;set;}    //额外子弹速度
 
 
     //计时器
@@ -72,8 +74,8 @@ public class AutoShooter : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
         //初始化子弹
         Bullet bulletScript = bullet.GetComponent<Bullet>();
-        bulletScript.damage += bonusDamage;    //应用额外伤害
-        bulletScript.moveSpeed += bonusBulletSpeed;    //应用额外子弹速度
+        bulletScript.damage += BonusDamage;    //应用额外伤害
+        bulletScript.moveSpeed += BonusBulletSpeed;    //应用额外子弹速度
         bulletScript.Init(direction);
 
     }

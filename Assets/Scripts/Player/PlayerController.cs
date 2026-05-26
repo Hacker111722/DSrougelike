@@ -6,14 +6,15 @@ namespace Game.Player
 {
 public class PlayerController : MonoBehaviour
 {
-    [Header("玩家移动速度")]
-    public float moveSpeed = 5.0f;
-
+    
+    [SerializeField] private float moveSpeed = 5.0f;
+    //moveSpeed被PlayerStats.LevelUp()修改
+    public float MoveSpeed {get=>moveSpeed; set =>moveSpeed = value;}
     private Rigidbody2D rb;
 
     private Vector2 moveInput;
 
-    public Animator animator;
+    [SerializeField]private Animator animator;
 
     private void Awake()
     {
@@ -50,7 +51,7 @@ public class PlayerController : MonoBehaviour
             if(playerStats !=null)
             {
                 EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
-                int damage = enemyHealth != null ? enemyHealth.contactDamage : 1;
+                int damage = enemyHealth != null ? enemyHealth.ContactDamage : 1;
                 playerStats.TakeDamage(damage);
             }
         }

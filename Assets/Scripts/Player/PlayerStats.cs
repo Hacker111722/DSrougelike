@@ -1,48 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Game.Skill;
+using Game.UI;
 namespace Game.Player
 {
 //玩家状态属性
 public class PlayerStats : MonoBehaviour
 {
     [Header("玩家等级")]
-    public int level = 1;
+    [SerializeField]private int level = 1;
+    public int Level => level;    //外部只读
 
     [Header("当前经验值")]
-    public int currentExp = 0;
+    [SerializeField]private int currentExp = 0;
+    public int CurrentExp => currentExp;
 
     [Header("升到下一个等级的经验值")]
-    public int expToNextLevel = 5;
+    [SerializeField]private int expToNextLevel = 5;
+    public int ExpToNextLevel => expToNextLevel;
 
     [Header("当前生命值")]
-    public int currentHealth = 10;
+    [SerializeField]private int currentHealth = 10;
 
     [Header("最大生命值")]
-    public int maxHealth = 10;
+    [SerializeField]private int maxHealth = 10;
+    public int MaxHealth {get=>maxHealth; set=>maxHealth = value;}
+    public int CurrentHealth => currentHealth;
 
     [Header("移动速度")]
-    public float moveSpeed = 7f;
+    [SerializeField]private float moveSpeed = 7f;
+    public float MoveSpeed {get=>moveSpeed; set=>moveSpeed = value;}
 
     [Header("受伤无敌时间")]
-    public float invincibleTime = 0.5f;
+    [SerializeField]private float invincibleTime = 0.5f;
 
     //是否无敌
     private bool isInvincible = false;
 
     [Header("技能选择UI")]
-    public SkillSelectionUI skillSelectionUI;
+    [SerializeField]private SkillSelectionUI skillSelectionUI;
 
     [Header("游戏结束UI")]
-    public GameOverUI gameOverUI;
+    [SerializeField] private GameOverUI gameOverUI;
 
     [Header("击杀回血量")]
-    public int healthRegenAmount = 0;
+    [SerializeField] private int healthRegenAmount = 1;
+    public int HealthRegenAmount {get=>healthRegenAmount; set => healthRegenAmount = value;}
 
     [Header("受伤闪烁")]
-    public SpriteRenderer playerSprite;   //玩家的精灵渲染器
-    public float flashInterval = 0.08f;   //闪烁间隔（秒）
+    [SerializeField]private SpriteRenderer playerSprite;   //玩家的精灵渲染器
+    [SerializeField]private float flashInterval = 0.08f;   //闪烁间隔（秒）
 
 
     //获得经验
@@ -78,7 +86,7 @@ public class PlayerStats : MonoBehaviour
 
         if (playerController != null)
         {
-            playerController.moveSpeed = moveSpeed;
+            playerController.MoveSpeed = moveSpeed;
         }
 
     }
@@ -143,7 +151,10 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-
+    public void Heal(int amount)
+    {
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);        
+    }
 
 
 }

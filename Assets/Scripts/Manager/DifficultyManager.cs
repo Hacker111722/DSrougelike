@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Player;
 namespace Game.Manager
 {
 public class DifficultyManager : MonoBehaviour
@@ -31,7 +32,7 @@ public class DifficultyManager : MonoBehaviour
         get
         {
             if(playerStats == null) return 0;
-            return Mathf.Max(0, playerStats.level-1);
+            return Mathf.Max(0, playerStats.Level-1);
         }
     }
 

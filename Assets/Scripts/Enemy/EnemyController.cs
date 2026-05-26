@@ -5,7 +5,8 @@ namespace Game.Enemy{
 public class EnemyController : MonoBehaviour
 {
     [Header("移动速度")]
-    public float moveSpeed = 2f;
+    [SerializeField]private float moveSpeed = 2f;
+    public float MoveSpeed {get => moveSpeed;set => moveSpeed = value;}
 
     //玩家对象的方位
     private Transform player;

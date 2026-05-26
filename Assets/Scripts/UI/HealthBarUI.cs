@@ -24,8 +24,8 @@ public class HealthBarUI : MonoBehaviour
     {
         if(playerStats == null || healthSlider==null) return;
 
-        healthSlider.maxValue = playerStats.maxHealth;
-        healthSlider.value = playerStats.currentHealth;
+        healthSlider.maxValue = playerStats.MaxHealth;
+        healthSlider.value = playerStats.CurrentHealth;
     }
 
 

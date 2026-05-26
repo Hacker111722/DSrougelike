@@ -98,37 +98,37 @@ public class SkillManager : MonoBehaviour
         switch (skill.skillType)
         {
             case SkillType.MoveSpeed:
-                playerStats.moveSpeed += skill.value;
+                playerStats.MoveSpeed += skill.value;
 
                 PlayerController playerController = playerStats.GetComponent<PlayerController>();
 
-                playerController.moveSpeed = playerStats.moveSpeed;
+                playerController.MoveSpeed = playerStats.MoveSpeed;
                 break;
 
             case SkillType.AttackSpeed:
-                autoShooter.attackInterval -= skill.value;
+                autoShooter.AttackInterval -= skill.value;
 
                 
-                autoShooter.attackInterval = Mathf.Max(0.1f, autoShooter.attackInterval);
+                autoShooter.AttackInterval = Mathf.Max(0.1f, autoShooter.AttackInterval);
 
                 break;
 
             case SkillType.MaxHealth:
-                playerStats.maxHealth += (int)skill.value;
+                playerStats.MaxHealth += (int)skill.value;
 
                 break;
 
             case SkillType.Damage:
-                autoShooter.bonusDamage+=(int)skill.value;
+                autoShooter.BonusDamage += (int)skill.value;
                 break;
             
             case SkillType.BulletSpeed:
-                autoShooter.bonusBulletSpeed += skill.value;
+                autoShooter.BonusBulletSpeed += skill.value;
                 break;
 
             case SkillType.HealthRegen:
             //击杀回血逻辑在EnemyHealth中实现，这里只记录数值
-            playerStats.healthRegenAmount += (int)skill.value;
+            playerStats.HealthRegenAmount += (int)skill.value;
             break;
 
         }

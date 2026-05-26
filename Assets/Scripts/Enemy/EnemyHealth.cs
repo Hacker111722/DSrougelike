@@ -9,17 +9,18 @@ namespace Game.Enemy
 public class EnemyHealth : MonoBehaviour
 {
     [Header("经验球预制体")]
-    public GameObject expOrPrefab;
+    [SerializeField] private GameObject expOrPrefab;
 
     [Header("最大生命值")]
-    public int maxHealth = 3;
+    [SerializeField] private int maxHealth = 3;
 
     [Header("碰撞伤害")]
-    public int contactDamage = 1;
+    [SerializeField] private int contactDamage = 1;
+    public int ContactDamage => contactDamage;
 
     [Header("爆炸参数（自爆用）")]
-    public float explosionRadius = 0f;
-    [HideInInspector] public int explosionDamage = 2;
+    [SerializeField] private float explosionRadius = 0f;
+    private int explosionDamage = 2;
 
     //当前血量
     private int currentHealth;
@@ -59,10 +60,9 @@ public class EnemyHealth : MonoBehaviour
             Instantiate(expOrPrefab, transform.position, Quaternion.identity);
             //触发玩家击杀回血
             PlayerStats playerStats = FindObjectOfType<PlayerStats>();
-            if(playerStats!=null && playerStats.healthRegenAmount>0)
+            if(playerStats!=null && playerStats.HealthRegenAmount>0)
             {
-                playerStats.currentHealth+= playerStats.healthRegenAmount;
-                playerStats.currentHealth = Mathf.Min(playerStats.currentHealth, playerStats.maxHealth);
+                playerStats.Heal(playerStats.HealthRegenAmount);
             }        
             Destroy(gameObject);
         }
@@ -70,6 +70,17 @@ public class EnemyHealth : MonoBehaviour
 
     }
 
+    public void SetupHealth(int value)
+    {
+        maxHealth = value;
+        currentHealth = maxHealth;  //满血重置         
+    }
+
+    public void SetUpExplosion(float radius, int damage)
+        {
+            explosionRadius = radius;
+            explosionDamage = damage;
+        }
     private IEnumerator ExplodeWithWarning()
     {
         //触发预警动画
@@ -87,10 +98,9 @@ public class EnemyHealth : MonoBehaviour
 
         //玩家回血
         PlayerStats playerStats = FindObjectOfType<PlayerStats>();
-        if(playerStats != null && playerStats.healthRegenAmount>0)
+        if(playerStats !=null && playerStats.HealthRegenAmount>0)
         {
-            playerStats.currentHealth += playerStats.healthRegenAmount;
-            playerStats.currentHealth = Mathf.Min(playerStats.currentHealth, playerStats.maxHealth);
+            playerStats.Heal(playerStats.HealthRegenAmount);
         }
 
         //爆炸伤害周围敌人

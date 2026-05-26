@@ -2,31 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
-
+using Game.Manager;
 namespace Game.Enemy
 {
 public class EnemySpawner : MonoBehaviour
 {
     [Header("敌人预制体")]
-    public GameObject enemyPrefab;
+    [SerializeField]private GameObject enemyPrefab;
 
     [Header("各类型的敌人预制体")]
-    public EnemyPrefabEntry[] enemyPrefabs;
+    [SerializeField]private EnemyPrefabEntry[] enemyPrefabs;
 
     [Header("敌人类型配置")]
-    public List<EnemyConfig> enemyConfigs = new List<EnemyConfig>();
+    [SerializeField] private List<EnemyConfig> enemyConfigs = new List<EnemyConfig>();
 
     [Header("敌人生成时间间隔")]
-    public float spawnInterval = 2f;
+    [SerializeField]private float spawnInterval = 2f;
 
     [Header("生成半径")]
-    public float spawnRadius = 10f;
+    [SerializeField]private float spawnRadius = 10f;
 
     [Header("场上敌人的最大数量")]
-    public float maxNumberofEnemy;
+    [SerializeField]private float maxNumberofEnemy;
 
     [Header("难度管理器")]
-    public DifficultyManager difficultyManager;
+    [SerializeField]private DifficultyManager difficultyManager;
 
     //场上当前敌人数量
     private int currentEnemyCount;
@@ -60,7 +60,7 @@ public class EnemySpawner : MonoBehaviour
         if (currentEnemies.Length >= maxEnemies) return;
 
         //获取当前玩家等级
-        int playerLevel = difficultyManager != null && difficultyManager.playerStats !=null ? difficultyManager.playerStats.level : 1;
+        int playerLevel = difficultyManager != null && difficultyManager.playerStats !=null ? difficultyManager.playerStats.Level : 1;
 
 
         //筛选出当前等级可用的敌人类型
@@ -115,18 +115,21 @@ public class EnemySpawner : MonoBehaviour
         EnemyController controller = enemy.GetComponent<EnemyController>();
         if(controller != null)
         {
-            controller.moveSpeed = difficultyManager != null ? difficultyManager.GetEnemySpeed() * (selectedConfig.moveSpeed/2f) : selectedConfig.moveSpeed;
+            float speed = difficultyManager != null ?
+            difficultyManager.GetEnemySpeed() * (selectedConfig.moveSpeed/2f)
+            :selectedConfig.moveSpeed;
+            controller.MoveSpeed = speed;   //改用属性
         }
 
         //配置血量
         EnemyHealth health  = enemy.GetComponent<EnemyHealth>();
         if(health != null)
         {
-            health.maxHealth = difficultyManager != null ? difficultyManager.GetEnemyMaxHealth() + (selectedConfig.maxHealth - 3) : selectedConfig.maxHealth;
-            health.contactDamage = selectedConfig.contactDamage;
-            health.explosionRadius = selectedConfig.explosionRadius;
-            health.explosionDamage = selectedConfig.contactDamage * 2;
-            health.ResetHealth();
+            int maxHp = difficultyManager != null
+            ? difficultyManager.GetEnemyMaxHealth() + (selectedConfig.maxHealth -3)
+            : selectedConfig.maxHealth;
+            health.SetupHealth(maxHp);
+            health.SetUpExplosion(selectedConfig.explosionRadius, selectedConfig.contactDamage *2);
         }
 
         //记录敌人类型
