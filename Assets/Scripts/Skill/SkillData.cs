@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+namespace Game.Skill
+{
 [System.Serializable]
 public class SkillData
 {
@@ -26,4 +27,6 @@ public enum SkillType
     Damage,
     BulletSpeed,
     HealthRegen
+}
+
 }

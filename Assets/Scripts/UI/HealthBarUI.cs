@@ -3,7 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Game.Player;
 
+namespace Game.UI
+{
 public class HealthBarUI : MonoBehaviour
 {
     [Header("玩家状态")]
@@ -26,4 +29,5 @@ public class HealthBarUI : MonoBehaviour
     }
 
 
+}
 }

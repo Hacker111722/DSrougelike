@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+namespace Game.Enemy{
 public class EnemyController : MonoBehaviour
 {
     [Header("移动速度")]
@@ -55,4 +55,5 @@ public class EnemyController : MonoBehaviour
         //驱动动画
         if(animator!=null) animator.SetInteger("State", 1);   //播放行走动画
     }
+}
 }

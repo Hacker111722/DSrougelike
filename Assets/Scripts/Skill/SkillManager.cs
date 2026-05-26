@@ -1,7 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Player;
+using Game.Weapon;
 
+namespace Game.Skill
+{
 public class SkillManager : MonoBehaviour
 {
     [Header("技能列表")]
@@ -136,4 +140,5 @@ public class SkillManager : MonoBehaviour
 
 
 
+}
 }

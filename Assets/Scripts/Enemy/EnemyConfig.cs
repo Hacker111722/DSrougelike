@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+namespace Game.Enemy
+{
 
 [System.Serializable]
 public class EnemyConfig
@@ -23,12 +25,5 @@ public class EnemyConfig
     [Header("所需最低玩家等级")]
     public int minPlayerLevel = 1;      //至少玩家等级 >= 此值才出现
 
-
-
-
-
-
-
-
-
+}
 }

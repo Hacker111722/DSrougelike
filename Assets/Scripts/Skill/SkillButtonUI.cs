@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using Game.Player;
+namespace Game.Skill
+{
 public class SkillButtonUI : MonoBehaviour
 {
-    [Header("¼¼ÄÜÃû³ÆÎÄ±¾")]
+    [Header("æŠ€èƒ½åæ–‡æœ¬")]
     public TextMeshProUGUI skillNameText;
 
-    [Header("¼¼ÄÜÃèÊöÎÄ±¾")]
+    [Header("æŠ€èƒ½æè¿°æ–‡æœ¬")]
     public TextMeshProUGUI skillDescriptionText;
 
     private SkillData currentSkill;
@@ -36,4 +38,5 @@ public class SkillButtonUI : MonoBehaviour
 
 
 
+}
 }

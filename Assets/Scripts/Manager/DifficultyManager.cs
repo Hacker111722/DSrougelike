@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+namespace Game.Manager
+{
 public class DifficultyManager : MonoBehaviour
 {
     [Header("玩家状态引用")]
@@ -54,4 +55,5 @@ public class DifficultyManager : MonoBehaviour
     }
 
 
+}
 }

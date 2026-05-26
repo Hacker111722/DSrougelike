@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
+namespace Game.Enemy
+{
 public class EnemySpawner : MonoBehaviour
 {
     [Header("敌人预制体")]
@@ -144,4 +146,6 @@ public class EnemyPrefabEntry
 {
     public EnemyType enemyType;
     public GameObject prefab;
+}
+
 }

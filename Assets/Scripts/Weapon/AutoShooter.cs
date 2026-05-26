@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//�Զ����ϵͳ
+namespace Game.Weapon{
+//玩家的自动开火功能
 public class AutoShooter : MonoBehaviour
 {
     [Header("子弹预制体")]
@@ -76,8 +77,5 @@ public class AutoShooter : MonoBehaviour
         bulletScript.Init(direction);
 
     }
-
-
-
-
+}
 }

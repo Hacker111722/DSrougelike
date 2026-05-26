@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Game.Enemy
+{
 public enum EnemyType
 {
     
@@ -10,4 +12,5 @@ public enum EnemyType
         Tank,  //坦克
         Exploder //自爆
     
+}
 }

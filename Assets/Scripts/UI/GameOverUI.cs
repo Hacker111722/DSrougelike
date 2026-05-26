@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+namespace Game.UI
+{
 public class GameOverUI : MonoBehaviour
 {
     [Header("UI 组件")]
@@ -60,4 +62,5 @@ public class GameOverUI : MonoBehaviour
 
 
 
+}
 }

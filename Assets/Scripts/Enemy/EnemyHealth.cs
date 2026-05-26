@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Game.Player;
+namespace Game.Enemy
+{
 
 //敌人的生命脚本
 public class EnemyHealth : MonoBehaviour
@@ -113,5 +116,5 @@ public class EnemyHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 }
-
+}
 

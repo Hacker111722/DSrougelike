@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UIElements;
-
+namespace Game.Player
+{
 public class ExperienceOrb : MonoBehaviour
 {
-    [Header("¾­ÑéÖµ")]
+    [Header("æ‹¾å–ç»éªŒçƒåè·å¾—çš„ç»éªŒ")]
     public int expAmount = 1;
 
-    [Header("Îü¸½¾àÀë")]
+    [Header("ç»éªŒçƒæ‹¾å–èŒƒå›´")]
     public float attractDistance = 3f;
 
-    [Header("ÒÆ¶¯ËÙ¶È")]
+    [Header("ç»éªŒçƒå¸å–é€Ÿåº¦")]
     public float moveSpeed = 5f;
 
-    //Íæ¼Òtransform
+    //ç©å®¶çš„transform
     private Transform player;
 
     private void Start()
     {
-        //²éÕÒÍæ¼Ò
+        //è·å–ç©å®¶çš„transform
         player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
@@ -29,16 +30,16 @@ public class ExperienceOrb : MonoBehaviour
     {
         if (player == null) return;
 
-        //¼ÆËã¾àÀë
+        //è®¡ç®—ç»éªŒçƒä¸ç©å®¶ä¹‹é—´çš„è·ç¦»
         float distance = Vector2.Distance(transform.position, player.position);
 
-        //½øÈëÎü¸½·¶Î§
+        //è®¾å®šæ‹¾å–ç»éªŒçƒçš„é€»è¾‘
         if (distance <= attractDistance)
         {
-            //·½Ïò
+            //å•ä½åŒ–æ–¹å‘å‘é‡
             Vector2 direction = (player.position - transform.position).normalized;
 
-            //ÒÆ¶¯
+            //ä»¤ç»éªŒçƒå†²å‘ç©å®¶
             transform.position += (Vector3)(direction * moveSpeed * Time.deltaTime);
         }
 
@@ -47,28 +48,20 @@ public class ExperienceOrb : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //Èç¹ûÅöµ½Íæ¼Ò
+        //è®¾å®šç»éªŒçƒçš„ç¢°æ’é€»è¾‘
         if (other.CompareTag("Player"))
         {
-            //»ñÈ¡Íæ¼ÒÊôĞÔ×é¼ş
+            //è·å–ç©å®¶çŠ¶æ€
             PlayerStats stats = other.GetComponent<PlayerStats>();
-            //Ôö¼Ó¾­Ñé
+            //åˆ¤å®šç©å®¶æ˜¯å¦èƒ½åŠ ç»éªŒå€¼
             if (stats != null)
             {
                 stats.AddExperience(expAmount);
             }
 
-            //Ïú»Ù¾­ÑéÇò
+            //æ¡åˆ°äº†å°±é”€æ¯ç»éªŒçƒ
             Destroy(gameObject);
         }
     }
-
-
-
-
-
-
-
-
-
+}
 }

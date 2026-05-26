@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Game.Enemy;
+namespace Game.Player
+{
 public class PlayerController : MonoBehaviour
 {
     [Header("玩家移动速度")]
@@ -55,4 +57,5 @@ public class PlayerController : MonoBehaviour
     }
 
 
+}
 }

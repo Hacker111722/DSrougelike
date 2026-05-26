@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+namespace Game.Skill
+{
 public class SkillSelectionUI : MonoBehaviour
 {
     [Header("技能选择按钮")]
@@ -80,8 +81,5 @@ public class SkillSelectionUI : MonoBehaviour
         Time.timeScale = 1f;
         gameObject.SetActive(false); 
     }
-
-
-
-
+}
 }

@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Game.Player;
+namespace Game.UI
+{
 public class ExperienceBarUI : MonoBehaviour
 {
-    [Header("Íæ¼ÒÊôĞÔ")]
+    [Header("ç©å®¶æ•°æ®")]
     public PlayerStats playerStats;
 
     [Header("Slider")]
@@ -16,11 +18,12 @@ public class ExperienceBarUI : MonoBehaviour
         UpdateExpBar();
     }
 
-    //¸üĞÂ¾­ÑéÌõ
+    //ï¿½ï¿½ï¿½Â¾ï¿½ï¿½ï¿½ï¿½ï¿½
     private void UpdateExpBar()
     {
         expSlider.maxValue = playerStats.expToNextLevel;
         expSlider.value = playerStats.currentExp;
     }
 
+}
 }

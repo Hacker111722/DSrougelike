@@ -465,7 +465,7 @@ MonoBehaviour:
     prefab: {fileID: 282637786450130945, guid: a9a739f90a9109f4ca99913f95439085, type: 3}
   - enemyType: 2
     prefab: {fileID: 4999175844935164944, guid: f6de2633c1d801f419697077688cc5af, type: 3}
-  - enemyType: 0
+  - enemyType: 3
     prefab: {fileID: 4152055877413008300, guid: 5cc9a1bc9877a874f9a2f2060511b36b, type: 3}
   enemyConfigs:
   - enemyType: 0
@@ -481,7 +481,7 @@ MonoBehaviour:
     maxHealth: 2
     contactDamage: 1
     sizeScale: 0.8
-    spriteColor: {r: 0.976465, g: 1, b: 0, a: 1}
+    spriteColor: {r: 1, g: 1, b: 1, a: 1}
     explosionRadius: 0
     minPlayerLevel: 1
   - enemyType: 2
@@ -489,7 +489,7 @@ MonoBehaviour:
     maxHealth: 6
     contactDamage: 2
     sizeScale: 1.5
-    spriteColor: {r: 1, g: 0, b: 0, a: 1}
+    spriteColor: {r: 1, g: 1, b: 1, a: 1}
     explosionRadius: 0
     minPlayerLevel: 3
   - enemyType: 3
@@ -497,7 +497,7 @@ MonoBehaviour:
     maxHealth: 2
     contactDamage: 2
     sizeScale: 0.7
-    spriteColor: {r: 0.48251948, g: 0.01713244, b: 0.5188679, a: 1}
+    spriteColor: {r: 1, g: 1, b: 1, a: 1}
     explosionRadius: 5
     minPlayerLevel: 3
   spawnInterval: 2
@@ -830,6 +830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  animator: {fileID: 0}
 --- !u!58 &420433529
 CircleCollider2D:
   m_ObjectHideFlags: 0

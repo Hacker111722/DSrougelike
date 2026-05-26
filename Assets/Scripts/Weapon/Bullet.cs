@@ -1,25 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Game.Enemy;
+namespace Game.Weapon{
 public class Bullet : MonoBehaviour
 {
-    //×Óµ¯¿ØÖÆÆ÷
-    //1.×Óµ¯ÒÆ¶¯
-    //2.ÃüÖĞµĞÈË
-    //3.×Ô¶¯Ïú»Ù
-    [Header("×Óµ¯ËÙ¶È")]
+    [Header("å­å¼¹çš„ç§»åŠ¨é€Ÿåº¦")]
     public float moveSpeed = 10f;
 
-    [Header("×Óµ¯ÉËº¦")]
+    [Header("å­å¼¹ä¼¤å®³")]
     public int damage = 1;
 
-    [Header("Éú´æÊ±¼ä")]
+    [Header("å­å¼¹çš„å­˜æ´»æ—¶é—´")]
     public float lifeTime = 3f;
 
     private Vector2 moveDirection;
 
-    //³õÊ¼»¯×Óµ¯·½Ïò
+    //å­å¼¹åˆå§‹åŒ–
     public void Init(Vector2 direction)
     {
         moveDirection = direction.normalized;
@@ -27,7 +24,7 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        //¶¨Ê±Ïú»Ù
+        //å­å¼¹ç”Ÿå­˜æ—¶é—´å€’è®¡æ—¶
         Destroy(gameObject, lifeTime);
     }
 
@@ -36,31 +33,32 @@ public class Bullet : MonoBehaviour
         Move();
     }
 
-    //×Óµ¯ÒÆ¶¯
+    //å­å¼¹ç§»åŠ¨
     private void Move()
     {
         transform.Translate(moveDirection* moveSpeed*Time.deltaTime);
     }
 
     ///<summary>
-    ///×Óµ¯ÒÆ¶¯
+    ///è®¡ç®—å­å¼¹çš„ç¢°æ’æ•ˆæœ
     ///</summary>
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //Èç¹ûÅöµ½µĞÈË
+        //æ•Œäººå—åˆ°æ”»å‡»
         if (other.CompareTag("Enemy"))
         {
-            //»ñÈ¡µĞÈËÉúÃü×é¼ş
+            //ä½¿æ•Œäººç”Ÿå‘½å‡å°‘
             EnemyHealth enemyHealth = other.GetComponent<EnemyHealth>();
             if (enemyHealth != null)
             {
-                //Ôì³ÉÉËº¦
+                //æ•Œäººå—ä¼¤
                 enemyHealth.TakeDamage(damage);
             }
 
-            //Ïú»Ù×Óµ¯
+            //ç¢°æ’åç«‹é©¬é”€æ¯å­å¼¹
             Destroy(gameObject); 
         }
     }
 
+}
 }

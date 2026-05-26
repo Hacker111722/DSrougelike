@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+namespace Game.Player{
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
@@ -11,4 +11,5 @@ public class CameraFollow : MonoBehaviour
         if(target == null) return;
         transform.position = new Vector3(target.position.x, target.position.y, -10f);
     }
+}
 }

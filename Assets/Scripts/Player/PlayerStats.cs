@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Game.Player
+{
 //玩家状态属性
 public class PlayerStats : MonoBehaviour
 {
@@ -144,4 +146,5 @@ public class PlayerStats : MonoBehaviour
 
 
 
+}
 }
