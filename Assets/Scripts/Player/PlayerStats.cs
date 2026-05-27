@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Game.Skill;
 using Game.UI;
+using Game.Core;
 namespace Game.Player
 {
 //玩家状态属性
@@ -52,9 +53,30 @@ public class PlayerStats : MonoBehaviour
     [SerializeField]private SpriteRenderer playerSprite;   //玩家的精灵渲染器
     [SerializeField]private float flashInterval = 0.08f;   //闪烁间隔（秒）
 
+        private void Awake()
+        {
+            //订阅敌人死亡事件--当敌人死了，unity自动调用OnEnemyKilledHandler
+            //+=的意思是追加一个监听者，不影响其他监听者
+            GameEvents.OnEnemyKilled += OnEnemyKilledHandler;
+        }
 
-    //获得经验
-    public void AddExperience(int amount)
+        private void ODestroy()
+        {
+            GameEvents.OnEnemyKilled -= OnEnemyKilledHandler;
+        }
+
+        //敌人死亡事件的处理方法
+        private void OnEnemyKilledHandler(Vector2 killPosition)
+        {
+            if(healthRegenAmount>0)
+            {
+                Heal(healthRegenAmount);
+            }
+            //未来扩展：连击数，成就检测，播放拾取音效
+        }
+
+        //获得经验
+        public void AddExperience(int amount)
     {
         currentExp += amount;
         Debug.Log("得到了经验");

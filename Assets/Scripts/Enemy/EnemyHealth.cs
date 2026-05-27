@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.Player;
+using Game.Core;
 namespace Game.Enemy
 {
 
@@ -49,6 +50,12 @@ public class EnemyHealth : MonoBehaviour
     {
         if(hasDied) return;
         hasDied = true;
+
+        //触发全局敌人死亡事件
+        //订阅了OnEnemyKilled的脚本会收到通知
+        //替代了原本的FindObjectOfType<PlayerStats>+回血逻辑
+        GameEvents.EnemyKilled(transform.position);
+
         //自爆敌人，先播放动画预警，再爆炸
         if(explosionRadius>0f)
         {
@@ -57,13 +64,7 @@ public class EnemyHealth : MonoBehaviour
         else
         {
             //普通死亡，直接销毁
-            Instantiate(expOrPrefab, transform.position, Quaternion.identity);
-            //触发玩家击杀回血
-            PlayerStats playerStats = FindObjectOfType<PlayerStats>();
-            if(playerStats!=null && playerStats.HealthRegenAmount>0)
-            {
-                playerStats.Heal(playerStats.HealthRegenAmount);
-            }        
+            Instantiate(expOrPrefab, transform.position, Quaternion.identity);     
             Destroy(gameObject);
         }
 
@@ -95,13 +96,6 @@ public class EnemyHealth : MonoBehaviour
 
         //生成经验球
         Instantiate(expOrPrefab, transform.position, Quaternion.identity);
-
-        //玩家回血
-        PlayerStats playerStats = FindObjectOfType<PlayerStats>();
-        if(playerStats !=null && playerStats.HealthRegenAmount>0)
-        {
-            playerStats.Heal(playerStats.HealthRegenAmount);
-        }
 
         //爆炸伤害周围敌人
         if(explosionRadius > 0f)
