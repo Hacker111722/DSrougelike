@@ -17,6 +17,17 @@ public class AutoShooter : MonoBehaviour
     [Header("攻击距离")]
     [SerializeField]private float attackRange = 8f;
 
+    //缓存的敌人列表，避免每次攻击都Find
+    private GameObject[] cachedEnemies;
+
+    //敌人缓存刷新计时器
+    private float enemyCacheTimer = 0f;
+    
+    //敌人缓存刷新间隔（秒）
+    //经验值：0.3~0.5秒刷新一次就够了，敌人是连续追赶玩家的
+    //不需要每帧都精确知道每个敌人的位置
+    private const float ENEMY_CACHE_INTERVAL = 0.3f;
+
     public int BonusDamage{get; set;}    //额外子弹伤害
     public float BonusBulletSpeed{get;set;}    //额外子弹速度
 
@@ -26,6 +37,18 @@ public class AutoShooter : MonoBehaviour
 
     private void Update()
     {
+        //定时刷新敌人缓存（独立于攻击计时器）
+        //即使没有攻击，缓存也会刷新，这样攻击时拿到的就是最新数据
+        enemyCacheTimer += Time.deltaTime;
+        if(enemyCacheTimer >= ENEMY_CACHE_INTERVAL)
+        {
+            enemyCacheTimer = 0f;
+            //只在需要刷新时才调用Find,而不是每次攻击时调用
+            //这样把O(n)操作从攻击频率降低到固定频率
+            cachedEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+        }
+
+        //攻击计时器
         timer += Time.deltaTime;
 
         if (timer >= attackInterval)
@@ -39,34 +62,28 @@ public class AutoShooter : MonoBehaviour
     //攻击距离最近的敌人
     private void AttackNearestEnemy()
     {
-        //识别敌人
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        //如果没敌人
-        if (enemies.Length == 0) return;
+        //用缓存替代Find,如果缓存为空或没有敌人，直接返回
+        if(cachedEnemies == null || cachedEnemies.Length==0) return;
 
         GameObject nearestEnemy = null;
-
         float nearestDistance = Mathf.Infinity;
 
-        //找到最近的敌人
-        foreach (GameObject enemy in enemies)
+        //遍历缓存的敌人列表
+        //敌人可能在缓存刷新间隙被销毁（被子弹打死），所以需要null检查
+        foreach(GameObject enemy in cachedEnemies)
         {
-            //计算距离
+            if(enemy == null) continue;   //被销毁的敌人，跳过
             float distance = Vector2.Distance(transform.position, enemy.transform.position);
-
-            //判断是否进入范围
-            if (distance <= attackRange) {
-                //找到最近的敌人
-                if (distance < nearestDistance)
-                {
-                    nearestDistance = distance;
-                    nearestEnemy = enemy;
-                }
+            if(distance <= attackRange && distance < nearestDistance)
+            {
+                nearestDistance = distance;
+                nearestEnemy = enemy;
             }
         }
 
-        if (nearestEnemy == null) return;
+        if(nearestEnemy == null) return;
+        
+
         //得到子弹发射方向
         Vector2 direction = (nearestEnemy.transform.position - transform.position).normalized;
 
